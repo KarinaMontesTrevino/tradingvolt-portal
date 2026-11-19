@@ -1,0 +1,6 @@
+Regimen,Dias,Pct_Total,T1_Return,T1_WinRate,T5_Return,T5_WinRate,T10_Return,T10_WinRate,T21_Return,T21_WinRate,T63_Return,T63_WinRate,Diagnostico
+Baseline (Promedio Histórico),5903,100.0%,+0.05%,55.1%,+0.24%,59.8%,+0.48%,63.4%,+1.01%,67.5%,+2.99%,73.7%,Retorno esperado del mercado general
+Q1: Ambos Bajan (Liquidación Sincronizada),2295,38.88%,+0.09%,56.2%,+0.35%,61.1%,+0.59%,63.2%,+1.19%,67.7%,+3.30%,73.7%,Efecto resorte: rebote asimétrico inmediato
+Q2: Inverso (RSP Sube / SPY Baja - Rotación),316,5.35%,+0.06%,55.4%,+0.29%,59.6%,+0.71%,66.5%,+1.05%,69.2%,+3.15%,76.5%,Rotación constructiva: máxima tasa de acierto a 63 días
+Q3: Inverso (SPY Sube / RSP Baja - Falsa Máscara),335,5.68%,-0.03%,54.3%,+0.23%,57.6%,+0.31%,64.8%,+0.84%,65.3%,+2.58%,73.0%,Trampa de amplitud: único régimen negativo en T+1
+Q4: Ambos Suben (Rally Sincronizado),2896,49.06%,+0.02%,54.1%,+0.15%,59.1%,+0.40%,63.2%,+0.90%,67.7%,+2.80%,73.6%,Expansión sostenida con inercia de amplitud

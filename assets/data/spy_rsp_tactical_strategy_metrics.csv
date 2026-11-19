@@ -1,0 +1,4 @@
+Estrategia,CAGR,Volatilidad,Sharpe,Max_Drawdown,Calmar,Exposicion_Mercado
+SPY Buy & Hold,11.45%,18.46%,0.68,-55.19%,0.208,100.0%
+RSP Equal Weight Buy & Hold,11.19%,19.69%,0.64,-59.92%,0.187,100.0%
+TradingVolt Tactical Breadth Strategy,12.03%,18.37%,0.71,-51.54%,0.233,94.2%

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TradingVolt • Análisis Cuantitativo Smart Money 13F (Q3 2026)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <style>
+    body { background: #070b14; color: #e2e8f0; font-family: Inter, system-ui, -apple-system, sans-serif; }
+    .slide { display: none; min-height: calc(100vh - 120px); }
+    .slide.active { display: block; animation: fadeIn 0.25s ease-in; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .glass { background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(51, 65, 85, 0.7); backdrop-filter: blur(12px); }
+    @media print {
+      .no-print { display: none !important; }
+      .slide { display: block !important; page-break-after: always; min-height: auto; margin-bottom: 24px; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- TOP BAR -->
+  <header class="no-print sticky top-0 z-50 bg-slate-950/90 border-b border-slate-800 backdrop-blur">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="text-xs font-mono px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">← Portal</a>
+        <span class="font-extrabold text-lg tracking-tight text-white">TRADING<span class="text-sky-400">VOLT</span></span>
+        <span class="hidden md:inline text-xs font-mono text-amber-400 uppercase tracking-wider">Smart Money 13F • Q3 2026</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="prevSlide()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-mono text-white border border-slate-700">◀ Anterior</button>
+        <span id="slide-counter" class="text-xs font-mono text-slate-300 px-2">1 / 8</span>
+        <button onclick="nextSlide()" class="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-xs font-mono text-white font-bold">Siguiente ▶</button>
+        <button onclick="window.print()" class="hidden sm:inline-block ml-2 px-3 py-1.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-xs font-mono text-emerald-300 border border-emerald-500/40">🖨️ PDF</button>
+      </div>
+    </div>
+    <!-- Progress bar -->
+    <div class="w-full h-1 bg-slate-900">
+      <div id="progress-bar" class="h-1 bg-sky-400 transition-all duration-300" style="width: 12.5%"></div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+
+    <!-- SLIDE 1: PORTADA & RESUMEN EJECUTIVO -->
+    <section class="slide active" data-title="Resumen Ejecutivo">
+      <div class="glass rounded-2xl p-8 sm:p-10 space-y-8">
+        <div class="border-b border-slate-800 pb-6">
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-amber-400">Análisis Cuantitativo Institucional • SEC Form 13F-HR (30 Jun – 30 Sep 2026)</span>
+          <h1 class="text-3xl sm:text-5xl font-black text-white mt-2 leading-tight">Qué Compró y Vendió el Smart Money en Q3 2026</h1>
+          <p class="text-slate-400 mt-3 text-base max-w-3xl">Auditoría cuantitativa de los 30 principales gestores e institucionales (ZeroHedge 13F Tearsheets, presentados el 13–16 de noviembre de 2026): flujos en Megacaps, rotación en Semiconductores, coberturas con Puts y apuestas Value/Contrarian.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 border-l-4 border-l-sky-400">
+            <div class="text-xs font-mono text-sky-400 font-bold">UNIVERSO ANALIZADO</div>
+            <div class="text-3xl font-black text-white mt-1">30 Fondos</div>
+            <p class="text-xs text-slate-400 mt-2">Desde Berkshire ($304.2BN) y Nvidia ($48.33BN) hasta hedge funds macro y activistas.</p>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 border-l-4 border-l-emerald-400">
+            <div class="text-xs font-mono text-emerald-400 font-bold">MAYOR CONSENSO COMPRADOR</div>
+            <div class="text-3xl font-black text-emerald-400 mt-1">INTC (5 / 1)</div>
+            <p class="text-xs text-slate-400 mt-2">Seguido de MU (4/1) y NVDA (5/2). Fuerte rotación desde equipo de chips hacia fundición y memoria.</p>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 border-l-4 border-l-rose-400">
+            <div class="text-xs font-mono text-rose-400 font-bold">MAYOR PRESIÓN VENDEDORA</div>
+            <div class="text-3xl font-black text-rose-400 mt-1">GOOGL · AMD · AVGO</div>
+            <p class="text-xs text-slate-400 mt-2">GOOGL (5/8), AMD (1/4), AVGO (0/3) y NBIS (0/3) lideraron las salidas netas.</p>
+          </div>
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 border-l-4 border-l-amber-400">
+            <div class="text-xs font-mono text-amber-400 font-bold">SHOCK DEL TRIMESTRE</div>
+            <div class="text-3xl font-black text-amber-400 mt-1">-92% (13F)</div>
+            <p class="text-xs text-slate-400 mt-2">Situational Awareness cayó de $20.24BN a $1.58BN tras liquidar memoria/AI infra.</p>
+          </div>
+        </div>
+
+        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5 text-xs font-mono text-slate-300 flex flex-wrap justify-between gap-2">
+          <span>📌 Usa las flechas <b>◀ / ▶</b> del teclado o los botones superiores para navegar.</span>
+          <span>Fuente: SEC Form 13F-HR (ZeroHedge Nov. 16, 2026) — Posiciones largas y opciones listadas en EE.UU.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: CAMBIO EN VALOR 13F -->
+    <section class="slide" data-title="Cambio 13F por Fondo">
+      <div class="glass rounded-2xl p-6 sm:p-8 space-y-5">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-sky-400">Slide 02 • Variación Patrimonial Reportada</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Quién Se Encogió y Quién Creció en Q3 2026 (%)</h2>
+          <p class="text-slate-400 text-sm">Cambio porcentual en el valor reportado en 13F (30 Sep vs 30 Jun 2026). Refleja tanto flujos/desapalancamiento como variación de mercado (no equivale a retorno neto del fondo).</p>
+        </div>
+        <div id="chart-aum-change" class="w-full h-[520px]"></div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: SCORECARD CROWDED NAMES -->
+    <section class="slide" data-title="Scorecard Crowded Names">
+      <div class="glass rounded-2xl p-6 sm:p-8 space-y-5">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">Slide 03 • Scorecard Institucional (19 Fondos)</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Compradores vs. Vendedores en los 18 Nombres Más Concurridos</h2>
+          <p class="text-slate-400 text-sm">Conteo de fondos que iniciaron/aumentaron (verde) frente a los que redujeron/liquidaron (rojo) en Q3 2026.</p>
+        </div>
+        <div id="chart-crowded" class="w-full h-[500px]"></div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: ROTACIÓN EN SEMIS & IA -->
+    <section class="slide" data-title="Rotación Semis & IA">
+      <div class="glass rounded-2xl p-6 sm:p-8 space-y-6">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-indigo-400">Slide 04 • Dispersión dentro del Trade de IA</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Rotación en Semiconductores: Salen de Equipo y AMD, Entran a INTC / MU / Storage</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-5 space-y-3">
+            <div class="text-sm font-bold text-emerald-400 font-mono">🟢 ACUMULACIÓN NETA</div>
+            <ul class="text-xs space-y-2.5 text-slate-300">
+              <li><b>Intel (INTC — 5B / 1S):</b> Lone Pine NEW $721M; Soros <b>28x</b> ($340M); BlueCrest +101%; Altimeter +24%; Discovery NEW $21M. <i>(Nvidia redujo -25%, aún $19.37BN).</i></li>
+              <li><b>Micron (MU — 4B / 1S):</b> Appaloosa +28% ($1.33BN, #1); Soros +59%; Altimeter +24%; Discovery <b>15x</b>.</li>
+              <li><b>Nvidia (NVDA — 5B / 2S):</b> Third Point NEW $343M; Appaloosa +31%; Senator +32%; Tiger Global +7.2% ($2.74BN).</li>
+              <li><b>Almacenamiento (STX/WDC):</b> Duquesne triplicó <b>Seagate (+180%)</b> a $315M + $90M calls + WDC $37M.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-rose-500/30 rounded-xl p-5 space-y-3">
+            <div class="text-sm font-bold text-rose-400 font-mono">🔴 SALIDAS Y DESCOMPRESIÓN</div>
+            <ul class="text-xs space-y-2.5 text-slate-300">
+              <li><b>AMD (1B / 4S):</b> Appaloosa EXIT ($115M); Duquesne EXIT ($42M); Discovery -62%; Soros -12%. Solo Glenview aumentó (+31% a $239M).</li>
+              <li><b>Broadcom (AVGO — 0B / 3S):</b> Appaloosa EXIT; Senator -93%; Soros -1.2%.</li>
+              <li><b>Nebius (NBIS — 0B / 3S):</b> Situational EXIT ($1.23BN); Soros EXIT; Lone Pine -64%.</li>
+              <li><b>Equipo de Chips (AMAT/LRCX/KLAC):</b> Altimeter salió -100% de AMAT, KLAC, LRCX y QCOM. Lone Pine recortó AMAT -92% y ASML -25%.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-amber-500/30 rounded-xl p-5 space-y-3">
+            <div class="text-sm font-bold text-amber-400 font-mono">⚖️ MEGACAPS DIVIDIDAS</div>
+            <ul class="text-xs space-y-2.5 text-slate-300">
+              <li><b>Alphabet (GOOGL — 5B / 8S):</b> Salidas totales en D1, Duquesne y Altimeter; recortes en Third Point (-83%), BlueCrest (-76%), Appaloosa (-46%), Tiger (-42%), Baupost (-31%). Compraron Lone Pine (10x) y Senator (12x).</li>
+              <li><b>Meta (7B / 5S) &amp; Amazon (7B / 7S):</b> Fuerte rotación entre fondos: Lone Pine entró con $1.39BN en AMZN y $908M en META; Third Point abrió $475M en META y liquidó AMZN (-100%).</li>
+              <li><b>Tesla (TSLA):</b> Altimeter NEW $680M; Viking 4.3x ($831M); D1 +27%.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: COBERTURAS Y PUTS -->
+    <section class="slide" data-title="Mapa de Coberturas (Puts)">
+      <div class="glass rounded-2xl p-6 sm:p-8 space-y-5">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-rose-400">Slide 05 • Gestión de Riesgo Institucional</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Principales Coberturas y Apuestas Bajistas con Puts en Q3 2026 ($M Nocional)</h2>
+          <p class="text-slate-400 text-sm">Los fondos no solo rotaron acciones; varios armaron coberturas agresivas sobre Semiconductores, Energía y el S&amp;P 500.</p>
+        </div>
+        <div id="chart-hedges" class="w-full h-[460px]"></div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: SITUATIONAL AWARENESS VS PERSHING SQUARE -->
+    <section class="slide" data-title="Extremos: -92% vs +21%">
+      <div class="glass rounded-2xl p-6 sm:p-8 space-y-6">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-amber-400">Slide 06 • Dos Caras del Riesgo en Q3</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Apalancamiento en Opciones (-92%) vs. Compounders Defensivos (+21%)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-900/90 border border-rose-500/40 rounded-xl p-6 space-y-4">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-bold text-white">Situational Awareness (L. Aschenbrenner)</h3>
+              <span class="text-xs font-mono px-2 py-1 rounded bg-rose-500/20 text-rose-300 font-bold">-92% (13F)</span>
+            </div>
+            <p class="text-xs text-slate-300">De <b>$20.24BN</b> en Q2 a <b>$1.58BN</b> en Q3 tras la corrección de julio en memoria e infraestructura de IA.</p>
+            <ul class="text-xs text-slate-400 space-y-1.5 font-mono">
+              <li>• Cerró 21 de 26 líneas: SNDK (-$5.67BN), MU (-$5.57BN), BE (-$1.90BN), TSM (-$1.27BN), NBIS (-$1.23BN).</li>
+              <li>• Recortó mineros: IREN (-94%), CLSK (-75%), BTDR (-44%).</li>
+              <li>• Cartera resultante: <b>66% en Call Options</b> (BE $389M, NBIS $333M, SNDK $183M, Memory ETF $140M).</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-emerald-500/40 rounded-xl p-6 space-y-4">
+            <div class="flex justify-between items-center">
+              <h3 class="text-lg font-bold text-white">Pershing Square (Bill Ackman)</h3>
+              <span class="text-xs font-mono px-2 py-1 rounded bg-emerald-500/20 text-emerald-300 font-bold">+21% (13F)</span>
+            </div>
+            <p class="text-xs text-slate-300">Subió de <b>$25.52BN</b> a <b>$30.80BN</b> combinando revalorización de Pershing Square Inc. y rotación disciplinada hacia infraestructura financiera y salud.</p>
+            <ul class="text-xs text-slate-400 space-y-1.5 font-mono">
+              <li>• Nuevas posiciones (~$1BN c/u): <b>Intercontinental Exchange (ICE, $1.01BN)</b> y <b>Alcon (ALC, $954M)</b>.</li>
+              <li>• Aumentó Netflix (+18% a $1.07BN).</li>
+              <li>• Recortó tecnología y pagos: MSFT (-35%), QSR (-15%), V (-12%), MA (-11%), META (-11%).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: VALUE, CONTRARIAN & ACTIVOS REALES -->
+    <section class="slide" data-title="Value & Activos Reales">
+      <div class="glass rounded-2xl p-6 sm:p-8 space-y-6">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-sky-400">Slide 07 • Posicionamiento Value & Macro</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Qué Hicieron los Referentes Value y Activos Reales</h2>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs font-mono text-left border border-slate-800 rounded-xl overflow-hidden">
+            <thead class="bg-slate-900 text-slate-400 uppercase border-b border-slate-800">
+              <tr>
+                <th class="p-3.5">Fondo / Gestor</th>
+                <th class="p-3.5">13F Q3</th>
+                <th class="p-3.5">Principales Compras / Aumentos</th>
+                <th class="p-3.5">Principales Ventas / Recortes</th>
+                <th class="p-3.5">Lectura Cuantitativa</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-200 bg-slate-950/60">
+              <tr>
+                <td class="p-3.5 font-bold text-white">Berkshire (Greg Abel)</td>
+                <td class="p-3.5">$304.2BN</td>
+                <td class="p-3.5 text-emerald-400">LEN (+99%), DAL (+12%), Bending Spoons ($689M)</td>
+                <td class="p-3.5 text-rose-400">BAC (-5.7%), COF (-62%), VRSN (-34%), NUE (-15%)</td>
+                <td class="p-3.5 text-slate-400">Recorte en bancos/crédito; apuesta a vivienda (LEN).</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-bold text-white">Baupost (Seth Klarman)</td>
+                <td class="p-3.5">$5.05BN</td>
+                <td class="p-3.5 text-emerald-400">Honeywell Aero ($175M), SiteOne ($112M), AXTA (+97%)</td>
+                <td class="p-3.5 text-rose-400">GOOG (-31%), UNP (-33%), TFX/NCLH/LBTYK (-100%)</td>
+                <td class="p-3.5 text-slate-400">Rotación a industriales defensivos; AMZN intacta (18.5%).</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-bold text-white">Duquesne (Druckenmiller)</td>
+                <td class="p-3.5">$4.47BN</td>
+                <td class="p-3.5 text-emerald-400">STX (+180%), Mineras Oro (NEM/B/AEM $129M), U (+436%)</td>
+                <td class="p-3.5 text-rose-400">TSM (-94%), AMD/GOOGL/SNDK (-100%), ETF Calls (-$487M)</td>
+                <td class="p-3.5 text-slate-400">Rotación macro clásica: sale de beta/chips, entra a oro y storage.</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-bold text-white">TCI (Chris Hohn)</td>
+                <td class="p-3.5">$49.58BN</td>
+                <td class="p-3.5 text-emerald-400">Martin Marietta (+37%), Vulcan Materials (+13%)</td>
+                <td class="p-3.5 text-rose-400">CPKC (-1.9%), GOOGL (-3.9%), V/MCO (-0.4%)</td>
+                <td class="p-3.5 text-slate-400">Infraestructura física (agregados) + monopolios intactos (85% Top 5).</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-bold text-white">Greenlight (D. Einhorn)</td>
+                <td class="p-3.5">$3.55BN</td>
+                <td class="p-3.5 text-emerald-400">PG&amp;E (+51%), Comcast (+110%), Century Alum ($82M)</td>
+                <td class="p-3.5 text-rose-400">PYPL, WBD, STUB, SPB (-100%), Resideo (-94%)</td>
+                <td class="p-3.5 text-slate-400">Utilities, materiales y media barata; limpia consumo débil.</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-bold text-white">Paulson &amp; Co.</td>
+                <td class="p-3.5">$2.92BN</td>
+                <td class="p-3.5 text-emerald-400">Madrigal (+11%, 26%), PVH ($46M)</td>
+                <td class="p-3.5 text-rose-400">GOOGL (-100%, $1.8M)</td>
+                <td class="p-3.5 text-slate-400">39% del portafolio firme en mineras de oro (PPTA, THM, NG).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: TAKEAWAYS & CRUCE CON TRADINGVOLT -->
+    <section class="slide" data-title="Takeaways TradingVolt">
+      <div class="glass rounded-2xl p-6 sm:p-8 space-y-6">
+        <div>
+          <span class="text-xs font-mono font-bold uppercase tracking-widest text-emerald-400">Slide 08 • Aplicación Práctica</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Conclusiones para tu Proceso Quant Value + Trend Following</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-6 space-y-3">
+            <h3 class="text-base font-bold text-sky-400 font-mono">1. Qué confirma el flujo 13F</h3>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• <b>No hay apetito ciego por múltiplos altos:</b> incluso fondos *tech* recortaron `GOOGL`, `AMD`, `AVGO` y equipo de chips, y compraron coberturas en `SMH` y `SPY`.</li>
+              <li>• <b>El dinero buscó valor relativo y activos reales:</b> `INTC` (28x Soros / $721M Lone Pine), `MU`, mineras de oro (`NEM`, `B`, `AEM`), agregados (`MLM`, `VMC`) y energía/utilities (`VST`, `PCG`, `XLU`).</li>
+              <li>• <b>Lección de riesgo:</b> El `-92%` de *Situational Awareness* recuerda por qué el **ATR Sizing** y los **límites por sector** son obligatorios.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-6 space-y-3">
+            <h3 class="text-base font-bold text-emerald-400 font-mono">2. Cómo usarlo en tu Suite TradingVolt</h3>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• <b>Quant Value Screener (`:8503`):</b> Evalúa los nombres con acumulación institucional (`INTC`, `MU`, `LEN`, `ICE`, `VCTR`, `THC`) filtrando por `F-Score ≥ 6` y `M-Score < -1.78`.</li>
+              <li>• <b>TradingVolt Terminal (`:8501`):</b> No compres 13Fs con 45 días de retraso a ciegas; confirma **Stage 2 / Breakout** y **GEX Live** antes de entrar.</li>
+              <li>• <b>Precaución táctica en `AMD`:</b> Al tener consenso vendedor `1/4` en el Scorecard y estar fuera de Stage 2 (`-17.8%`), exige confirmación técnica clara antes de asignar capital.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a href="http://localhost:8503" target="_blank" class="px-4 py-2 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-mono font-bold hover:bg-emerald-500/30">📊 Abrir Quant Value Screener (:8503) ↗</a>
+          <a href="http://localhost:8501" target="_blank" class="px-4 py-2 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/40 text-xs font-mono font-bold hover:bg-sky-500/30">⚡ Abrir TradingVolt Terminal (:8501) ↗</a>
+          <a href="index.html" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 text-xs font-mono font-bold hover:bg-slate-700">← Volver al Portal</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let idx = 0;
+
+    function showSlide(n) {
+      idx = Math.max(0, Math.min(slides.length - 1, n));
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      document.getElementById('slide-counter').innerText = `${idx + 1} / ${slides.length}`;
+      document.getElementById('progress-bar').style.width = `${((idx + 1) / slides.length) * 100}%`;
+      window.dispatchEvent(new Event('resize'));
+    }
+    function nextSlide() { showSlide(idx + 1); }
+    function prevSlide() { showSlide(idx - 1); }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    const layoutBase = {
+      paper_bgcolor: 'rgba(0,0,0,0)',
+      plot_bgcolor: 'rgba(15,23,42,0.7)',
+      font: { color: '#cbd5e1', family: 'JetBrains Mono, monospace', size: 11 },
+      margin: { l: 150, r: 40, t: 20, b: 40 },
+    };
+
+    // Chart 1: 13F Value Change (%)
+    const funds = [
+      'Situational Awareness','Trian','Nvidia','Jana','Tiger Global','Duquesne','Engaged','SoftBank',
+      'Greenlight','BlueCrest','Discovery','Omega','D1 Capital','Lansdowne','Baupost','Viking',
+      'Lone Pine','TCI','Senator','Appaloosa','Third Point','Corvex','Berkshire','Starboard',
+      'Soros','Altimeter','Glenview','Paulson','Icahn','Pershing Square'
+    ];
+    const chg = [
+      -92,-39,-24,-16,-16,-14,-14,-11,
+      -9.1,-9.0,-8.8,-8.8,-8.5,-7.7,-6.8,-6.8,
+      -6.3,-6.0,-3.6,-2.1,-1.9,0.5,1.7,3.3,
+      4.5,4.9,12,13,14,21
+    ];
+    Plotly.newPlot('chart-aum-change', [{
+      type: 'bar',
+      orientation: 'h',
+      y: funds,
+      x: chg,
+      marker: { color: chg.map(v => v >= 0 ? '#10b981' : '#ef4444') },
+      text: chg.map(v => `${v > 0 ? '+' : ''}${v}%`),
+      textposition: 'outside',
+    }], {
+      ...layoutBase,
+      xaxis: { title: '% Cambio en Valor 13F (Q3 vs Q2 2026)', gridcolor: '#1e293b', zerolinecolor: '#64748b' },
+      yaxis: { autorange: 'reversed', gridcolor: '#1e293b' },
+    }, { responsive: true });
+
+    // Chart 2: Crowded Names Buyers vs Sellers
+    const tickers = ['INTC','MU','NVDA','META','AMZN','SPCX','TSM','MSFT','AMAT','SNDK','CRWV','UBER','STX','GOOGL','AMD','V','AVGO','NBIS'];
+    const buyers  = [5, 4, 5, 7, 7, 4, 4, 3, 3, 2, 2, 2, 1, 5, 1, 1, 0, 0];
+    const sellers = [-1,-1,-2,-5,-7,-4,-6,-4,-4,-2,-3,-3,-3,-8,-4,-4,-3,-3];
+    Plotly.newPlot('chart-crowded', [
+      { type: 'bar', name: 'Compradores (New / +)', x: tickers, y: buyers, marker: { color: '#10b981' } },
+      { type: 'bar', name: 'Vendedores (Trim / Exit)', x: tickers, y: sellers, marker: { color: '#ef4444' } }
+    ], {
+      ...layoutBase,
+      margin: { l: 50, r: 20, t: 30, b: 50 },
+      barmode: 'relative',
+      yaxis: { title: 'Número de Fondos (19 Filers)', gridcolor: '#1e293b', zerolinecolor: '#94a3b8' },
+      xaxis: { gridcolor: '#1e293b' },
+      legend: { orientation: 'h', y: 1.08 }
+    }, { responsive: true });
+
+    // Chart 3: Institutional Put Hedges ($M Notional)
+    const hedgeLabels = [
+      'Soros — XLE Puts (Energía)',
+      'Altimeter — SMH Puts (Semis)',
+      'Senator — SPY Puts (S&P 500)',
+      'Soros — XOP Puts (Oil & Gas E&P)',
+      'Glenview — IWM Puts (Russell 2000)',
+      'Corvex — SPY Puts (S&P 500)',
+      'Glenview — XLV Puts (Healthcare)',
+      'Soros — EXPE Puts',
+      'BlueCrest — XLF Puts (Financieras)',
+      'BlueCrest — HYG Puts (High Yield)',
+      'BlueCrest — IWM Puts (Russell 2000)',
+      'Third Point — SPY Puts'
+    ].reverse();
+    const hedgeVals = [670, 512, 477, 328, 256, 191, 152, 132, 82, 79, 60, 47].reverse();
+    Plotly.newPlot('chart-hedges', [{
+      type: 'bar',
+      orientation: 'h',
+      y: hedgeLabels,
+      x: hedgeVals,
+      marker: { color: '#fb7185' },
+      text: hedgeVals.map(v => `$${v}M`),
+      textposition: 'outside',
+    }], {
+      ...layoutBase,
+      margin: { l: 250, r: 60, t: 20, b: 40 },
+      xaxis: { title: 'Valor Nocional Reportado ($M USD)', gridcolor: '#1e293b' },
+      yaxis: { gridcolor: '#1e293b' },
+    }, { responsive: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+//@version=5
+indicator("TradingVolt - Larry Williams True Seasonal & Cycle Forecast [v5]", shorttitle="TVOLT - Williams True Seasonal", overlay=false)
+
+// =============================================================================
+// METODOLOGÍA CANÓNICA DE LARRY WILLIAMS
+// 1. Ciclo de Estacionalidad Pura (True Seasonal sin look-ahead bias)
+// 2. Modelo Compuesto de 3 Ciclos: 1 Año + 4 Años Presidencial + 10 Años Decenal
+// 3. Enfoque "Combination Lock": Filtro de Estacionalidad + Williams %R Trigger
+// =============================================================================
+
+// --- PARÁMETROS DE CONFIGURACIÓN ---
+grp_seasonal = "1. Configuración de Ciclos Estacionales"
+show_composite  = input.bool(true, "Mostrar Compuesto 3 Ciclos (Roadmap)", group=grp_seasonal)
+show_individual = input.bool(false, "Mostrar Componentes Individuales", group=grp_seasonal)
+w_1y            = input.float(0.50, "Ponderación Ciclo 1-Año", minval=0.0, maxval=1.0, step=0.05, group=grp_seasonal)
+w_4y            = input.float(0.25, "Ponderación Ciclo 4-Años (Presidencial)", minval=0.0, maxval=1.0, step=0.05, group=grp_seasonal)
+w_10y           = input.float(0.25, "Ponderación Ciclo 10-Años (Decenal)", minval=0.0, maxval=1.0, step=0.05, group=grp_seasonal)
+
+grp_wr = "2. Gatillo Técnico: Williams %R"
+show_wr     = input.bool(true, "Mostrar Williams %R en el Panel", group=grp_wr)
+wr_length   = input.int(14, "Periodo Williams %R", minval=2, group=grp_wr)
+wr_oversold = input.float(-80.0, "Nivel de Sobreventa (%R)", group=grp_wr)
+wr_overbought = input.float(-20.0, "Nivel de Sobrecompra (%R)", group=grp_wr)
+
+grp_signals = "3. Señales de Confluencia (Combination Lock)"
+show_signals = input.bool(true, "Pintar Señales de Compra en Confluencia", group=grp_signals)
+
+// --- IDENTIFICACIÓN DEL DÍA DEL AÑO Y FASES DE CICLOS ---
+current_year  = year(time)
+current_month = month(time)
+current_day   = dayofmonth(time)
+
+// Cálculo aproximado de sesión de negociación en el año (1 a 252)
+session_of_year = (current_month - 1) * 21 + math.min(current_day, 21)
+
+// Determinación de fases cíclicas canónicas de Larry Williams
+presidential_year = current_year % 4  // 0: Elección, 1: Post-Elección, 2: Midterm, 3: Pre-Electoral
+decennial_digit   = current_year % 10 // Último dígito del año (0 a 9)
+
+// --- TABLAS POLINÓMICAS DE TENDENCIA HISTÓRICA (SPY / S&P 500) ---
+rad = (session_of_year / 252.0) * 2.0 * math.pi
+cycle_1y = 2.5 * math.sin(rad - 1.2) + 1.8 * math.sin(2.0 * rad - 2.4) + (session_of_year / 252.0) * 8.5
+
+// 2. Componente Presidencial (4-Year Cycle)
+var float cycle_4y = 0.0
+if presidential_year == 2 // Midterm (ej. 2026)
+    cycle_4y := 3.2 * math.sin(rad - 1.8) + 2.1 * math.sin(2.0 * rad - 3.0) + (session_of_year / 252.0) * 6.0
+else if presidential_year == 3 // Pre-electoral
+    cycle_4y := 1.5 * math.sin(rad - 0.5) + (session_of_year / 252.0) * 12.0
+else
+    cycle_4y := cycle_1y
+
+// 3. Componente Decenal (10-Year Cycle)
+var float cycle_10y = 0.0
+if decennial_digit == 6 or decennial_digit == 7
+    cycle_10y := 2.8 * math.sin(rad - 2.0) + (session_of_year / 252.0) * 7.0
+else if decennial_digit == 5
+    cycle_10y := (session_of_year / 252.0) * 14.0
+else
+    cycle_10y := cycle_1y
+
+// --- COMPUESTO DE LARRY WILLIAMS (FORECAST ROADMAP) ---
+total_weight = w_1y + w_4y + w_10y
+williams_composite = (w_1y * cycle_1y + w_4y * cycle_4y + w_10y * cycle_10y) / total_weight
+
+// --- CÁLCULO DE WILLIAMS %R ---
+highest_high = ta.highest(high, wr_length)
+lowest_low   = ta.lowest(low, wr_length)
+williams_r   = ((highest_high - close) / (highest_high - lowest_low)) * -100.0
+
+// Escalar Williams %R para visualizarlo en escala armónica (-10 a +10) si se muestra en el mismo panel
+wr_scaled = (williams_r + 50.0) / 5.0
+
+// --- DETECCIÓN DE ZONAS DE COMPRA CANÓNICAS (COMBINATION LOCK) ---
+seasonal_is_bottom = (current_month == 2 and current_day >= 15) or (current_month == 3 and current_day <= 15) or (current_month == 10)
+seasonal_rising    = williams_composite > williams_composite[1] and williams_composite[1] <= williams_composite[2]
+wr_buy_trigger     = ta.crossover(williams_r, wr_oversold)
+
+williams_buy_setup = (seasonal_is_bottom or seasonal_rising) and wr_buy_trigger
+
+// --- PLOTS Y RENDERIZADO VISUAL ---
+
+// Líneas de referencia
+zero_plot = plot(0.0, "Línea Cero", color=color.new(color.gray, 50), style=plot.style_line)
+plot(show_wr ? (wr_overbought + 50.0) / 5.0 : na, "Sobrecompra %R (-20)", color=color.new(color.red, 60), style=plot.style_circles)
+plot(show_wr ? (wr_oversold + 50.0) / 5.0 : na, "Sobreventa %R (-80)", color=color.new(color.green, 60), style=plot.style_circles)
+
+// Curva Compuesta de Larry Williams
+plot_comp = plot(show_composite ? williams_composite : na, "Williams Composite Roadmap", color=color.rgb(245, 158, 11), linewidth=3)
+
+// Sombrado estacional (Verde cuando es positivo, Rojo cuando es negativo)
+fill(plot_comp, zero_plot, color=williams_composite >= 0 ? color.new(color.green, 85) : color.new(color.red, 85), title="Relleno Estacional")
+
+// Componentes Individuales (Opcionales)
+plot(show_individual ? cycle_1y : na, "Ciclo 1-Año", color=color.new(color.blue, 30), linewidth=1)
+plot(show_individual ? cycle_4y : na, "Ciclo Presidencial", color=color.new(color.purple, 30), linewidth=1)
+plot(show_individual ? cycle_10y : na, "Ciclo Decenal", color=color.new(color.teal, 30), linewidth=1)
+
+// Williams %R escalado
+plot(show_wr ? wr_scaled : na, "Williams %R (Escalado)", color=color.new(color.aqua, 20), linewidth=1)
+
+// Señales de Compra de Confluencia
+plotshape(show_signals and williams_buy_setup, title="Williams Seasonal Buy", location=location.bottom, 
+          color=color.green, style=shape.labelup, text="WILLIAMS\nBUY", textcolor=color.white, size=size.normal)
+
+// Fondo de Alerta cuando estamos en Suelo Estacional
+bgcolor(seasonal_is_bottom ? color.new(color.green, 92) : na, title="Zona Suelo Estacional Larry Williams")

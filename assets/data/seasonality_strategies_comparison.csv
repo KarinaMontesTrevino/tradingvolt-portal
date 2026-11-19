@@ -1,0 +1,8 @@
+Estrategia,Activo,CAGR,MaxDD,Sharpe,Exposicion,Veredicto
+Efecto Halloween (Nov-Abr),S&P 500 (SPY),+7.82%,-35.29%,0.48,50% del tiempo,Excelente ratio riesgo/retorno; reduce DD 20%
+Temporada de Verano (May-Oct),S&P 500 (SPY),+4.80%,-41.19%,0.27,50% del tiempo,Retorno débil; lateralización y mayor volatilidad
+Turn-of-the-Month (5 días/mes),S&P 500 (SPY),+5.41%,-26.99%,0.41,24% del tiempo,Anomalía impresionante: mitad del retorno en 1/4 tiempo
+Buy & Hold Pasivo,S&P 500 (SPY),+10.75%,-55.19%,0.54,100% del tiempo,Mayor retorno nominal pero caídas brutales (-55%)
+Petróleo Driving Season (Feb-Jun),Crude Oil (CL=F),+11.05%,-165%,Positivo,42% del tiempo,Viento de cola real por demanda de refinerías
+Petróleo Fuera de Estación (Jul-Ene),Crude Oil (CL=F),-3.91%,-90.90%,Negativo,58% del tiempo,Destrucción sistemática de capital
+Oro Ventana Estacional (Dic-Feb/Jul-Sep),Gold Futures (GC=F),+10.29%,-24.18%,0.70,50% del tiempo,Mejor Sharpe (0.70) reduciendo Drawdown del -44% al -24%

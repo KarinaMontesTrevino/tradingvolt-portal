@@ -1,0 +1,109 @@
+{
+  "report_date": "Martes, 3 de Noviembre de 2026",
+  "session_date": "Lunes 2 de Noviembre de 2026",
+  "headline": "Wall Street mixto en la víspera de los midterms: la tecnología revierte el rebote (QQQ -1,36%) mientras resisten Dow y small caps; el petróleo se hunde más de 7% por señales diplomáticas.",
+  "takeaways": [
+    "Sesión dividida antes de la elección: Dow Jones sube +0,41% y RSP (Equal Weight) +0,77%, pero la tecnología revirtió (QQQ -1,36%, Nasdaq -1,07%) y el VIX saltó +8,9% a 21,2.",
+    "El petróleo WTI colapsa -7,36% a US$96,46 ante distensión diplomática en Medio Oriente; el bono del Tesoro a 10 años baja a 4,894% (-3,5 pb).",
+    "Expectativas Fed: Los futuros descuentan 2,19 alzas de tasas acumuladas a 2027 (0,73 en 2026 y 1,46 en 2027), moderándose desde el pico de 3,83 de septiembre.",
+    "Mercado local (Chile): El IPSA repunta +1,18% a 10.375,6 puntos y el dólar cae -1,51% a $978 tras Imacec de septiembre superior a lo esperado."
+  ],
+  "assets": [
+    {
+      "symbol": "^GSPC",
+      "name": "S&P 500",
+      "price": "7.541,40",
+      "change": -0.51,
+      "unit": "pts",
+      "status": "down"
+    },
+    {
+      "symbol": "QQQ",
+      "name": "QQQ (Nasdaq 100)",
+      "price": "681,09",
+      "change": -1.36,
+      "unit": "USD",
+      "status": "down"
+    },
+    {
+      "symbol": "^IXIC",
+      "name": "Nasdaq Composite",
+      "price": "25.164,30",
+      "change": -1.07,
+      "unit": "pts",
+      "status": "down"
+    },
+    {
+      "symbol": "^DJI",
+      "name": "Dow Jones",
+      "price": "51.984,00",
+      "change": 0.41,
+      "unit": "pts",
+      "status": "up"
+    },
+    {
+      "symbol": "IWM",
+      "name": "IWM (Russell 2000)",
+      "price": "279,14",
+      "change": -0.07,
+      "unit": "USD",
+      "status": "down"
+    },
+    {
+      "symbol": "RSP",
+      "name": "RSP (S&P Equal Weight)",
+      "price": "219,98",
+      "change": 0.77,
+      "unit": "USD",
+      "status": "up"
+    },
+    {
+      "symbol": "^TNX",
+      "name": "Treasury 10 Años",
+      "price": "4,894%",
+      "change": -0.07,
+      "unit": "-3.5 pb",
+      "status": "down"
+    },
+    {
+      "symbol": "CL=F",
+      "name": "WTI Crude Oil",
+      "price": "US$96,46",
+      "change": -7.36,
+      "unit": "USD/bbl",
+      "status": "down"
+    },
+    {
+      "symbol": "DX-Y.NYB",
+      "name": "Dólar DXY",
+      "price": "101,75",
+      "change": -0.13,
+      "unit": "pts",
+      "status": "down"
+    },
+    {
+      "symbol": "USDCLP=X",
+      "name": "USD/CLP",
+      "price": "$978,00",
+      "change": -1.51,
+      "unit": "CLP",
+      "status": "down"
+    },
+    {
+      "symbol": "^IPSA",
+      "name": "IPSA (Chile)",
+      "price": "10.375,60",
+      "change": 1.18,
+      "unit": "pts",
+      "status": "up"
+    },
+    {
+      "symbol": "BTC-USD",
+      "name": "Bitcoin",
+      "price": "US$76.677",
+      "change": -2.01,
+      "unit": "USD",
+      "status": "down"
+    }
+  ]
+}
